@@ -1,0 +1,33 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: master-storage-encryption
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      filesystems:
+        - device: /dev/mapper/root
+          format: xfs
+          label: root
+          wipeFilesystem: true
+      luks:
+        - clevis:
+            tang:
+{% for item in luks_config  %}
+              - thumbprint: {{ item.thumbprint}}
+                url: {{ item.url }}
+{% endfor %}
+            threshold: 1
+          device: {{ luks_device }}
+          label: {{ luks_label }}
+          name: {{ luks_name }}
+          options:
+{% for item in luks_options %}
+            - {{ item }}
+{% endfor %}
+          wipeVolume: {{ luks_wipeVolume }}
+  fips: true
