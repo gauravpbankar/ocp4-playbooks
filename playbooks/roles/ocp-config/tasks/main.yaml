@@ -56,10 +56,6 @@
     args:
       chdir: "{{ workdir }}"
   
-  - name: To print variables
-    shell: echo "{{ luks_compliant }} and {{ luks_config }} and  {{ luks_filesystem_device }} and  {{ luks_format }} and  {{ luks_wipeFileSystem }} and  {{ luks_device }} and  {{ luks_label }} and  {{ luks_options }} and  {{ luks_wipeVolume }} and {{ luks_label }} and {{ luks_name }}"
-    when: luks_compliant.enabled 
-
   - name: Generate Machine Config Master
     template:
       src: ../templates/99-master-machineconfig.yaml.j2
