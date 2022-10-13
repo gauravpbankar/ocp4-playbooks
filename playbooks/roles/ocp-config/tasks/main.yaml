@@ -58,6 +58,7 @@
   
   - name: To print variables
     shell: echo "{{ luks_compliant }} and {{ luks_config }} and  {{ luks_filesystem_device }} and  {{ luks_format }} and  {{ luks_wipeFileSystem }} and  {{ luks_device }} and  {{ luks_label }} and  {{ luks_options }} and  {{ luks_wipeVolume }} and {{ luks_label }} and {{ luks_name }}"
+    when: luks_compliant.enabled and luks_config | length > 0
 
   - name: Generate Machine Config Master
     template:
