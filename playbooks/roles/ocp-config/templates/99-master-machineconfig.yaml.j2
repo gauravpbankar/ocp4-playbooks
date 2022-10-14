@@ -10,10 +10,10 @@ spec:
       version: 3.2.0
     storage:
       filesystems:
-        - device: /dev/mapper/root
-          format: xfs
-          label: root
-          wipeFilesystem: true
+        - device: {{ luks_filesystem_device }}
+          format: {{ luks_format }}
+          label: {{ luks_name }}
+          wipeFilesystem: {{ luks_wipeFileSystem }}
       luks:
         - clevis:
             tang:
