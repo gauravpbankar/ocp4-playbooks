@@ -18,8 +18,10 @@ spec:
         - clevis:
             tang:
 {% for item in luks_config  %}
+{% if item.thumbprint != null && item.url != null %}
               - thumbprint: {{ item.thumbprint}}
                 url: {{ item.url }}
+{% endif %}
 {% endfor %}
             threshold: 1
           device: {{ luks_device }}

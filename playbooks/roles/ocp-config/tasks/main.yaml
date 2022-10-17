@@ -60,13 +60,13 @@
     template:
       src: ../templates/99-master-machineconfig.yaml.j2
       dest: "{{ workdir }}/openshift/99-master-machineconfig.yaml"
-    when: luks_compliant.enabled 
+    when: luks_compliant.enabled and luks_config | length > 0
 
   - name: Generate Machine Config Worker  
     template:
       src: ../templates/99-worker-machineconfig.yaml.j2
       dest: "{{ workdir }}/openshift/99-worker-machineconfig.yaml"
-    when: luks_compliant.enabled
+    when: luks_compliant.enabled and luks_config | length > 0
 
   - name: Setup network configuration
     template:
