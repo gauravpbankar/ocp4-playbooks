@@ -18,7 +18,7 @@ spec:
         - clevis:
             tang:
 {% for item in luks_config  %}
-{% if item.thumbprint != null && item.url != null %}
+{% if item.thumbprint is not none and item.url is not none %}
               - thumbprint: {{ item.thumbprint}}
                 url: {{ item.url }}
 {% endif %}
