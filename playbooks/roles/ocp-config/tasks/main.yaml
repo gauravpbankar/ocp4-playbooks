@@ -56,28 +56,16 @@
     args:
       chdir: "{{ workdir }}"
 
-  - name: To print variables
-    shell: echo "{{ luks_compliant }} and {{ luks_config }}"
+#  - name: To print variables
+#    shell: echo "{{ luks }} and {{ luks.config }}"
   
-  - name: Generate Machine Config Master
-    template:
-      src: ../templates/99-master-machineconfig.yaml.j2
-      dest: "{{ workdir }}/openshift/99-master-machineconfig.yaml"
+  - name: Generate Machine Config for master and worker nodes
     when:
-      - luks_compliant.enabled
-      - luks_config | length > 0
-      - luks_config[0].thumbprint is not none
-      - luks_config[0].url is not none
-
-  - name: Generate Machine Config Worker
-    template:
-      src: ../templates/99-worker-machineconfig.yaml.j2
-      dest: "{{ workdir }}/openshift/99-worker-machineconfig.yaml"
-    when:
-      - luks_compliant.enabled
-      - luks_config | length > 0
-      - luks_config[0].thumbprint is not none
-      - luks_config[0].url is not none
+      - luks.enabled and luks is defined
+      - luks.config | length > 0
+      - luks.config[0].thumbprint is not none
+      - luks.config[0].url is not none
+    import_tasks: machineconfig_luks.yaml
 
   - name: Setup network configuration
     template:
